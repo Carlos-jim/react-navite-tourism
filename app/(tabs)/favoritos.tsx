@@ -1,4 +1,4 @@
-import { Text, View, TextInput } from "react-native";
+import { Text, View,ScrollView } from "react-native";
 import TouristCard from "@/components/cards";
 
 export default function HomeScreen() {
@@ -6,16 +6,12 @@ export default function HomeScreen() {
     console.log('Ver detalles...');
   };
   return (
-    <View className="gap-2 p-7 mt-5">
-      <View className="gap-6">
-        <Text className="text-[26px] font-bold mb-2 mt-4">Descubre nuevos lugares</Text>
-        <TextInput
-          placeholder="Buscar sitios turísticos"
-          className="h-14 border border-gray-400 px-2 rounded-xl"
-        />
+    <ScrollView className="gap-2 p-7 mt-5">
+      <View className="gap-1">
+        <Text className="text-[26px] font-bold mb-2 mt-4">Mis Favoritos</Text>
+        <Text className="text-[15px] text-gray-500">... sitios guardados</Text>
       </View>
       <View className="mt-4">
-        <Text className="text-[20px] font-bold mb-2">Tarjetas de ejemplo</Text>
         <TouristCard
           title="Parque Arví"
           category="Natural"
@@ -27,6 +23,6 @@ export default function HomeScreen() {
           onPress={handleDetails}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 }
