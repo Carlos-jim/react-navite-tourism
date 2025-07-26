@@ -7,7 +7,11 @@ module.exports = {
   ],
   presets: [require('nativewind/preset')], // 👈 Preset obligatorio
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#40E0D0', 
+      },
+    },
   },
   plugins: [],
   darkMode: 'class', // 👈 Evita otros errores comunes
