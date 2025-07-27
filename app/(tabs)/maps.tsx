@@ -1,110 +1,64 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+// src/screens/MapScreen.js
+import React, { useState } from 'react';
+import { View, Text, ScrollView } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import FeaturedSiteCard from '@/components/FeaturedSiteCards';
+import SiteListItem from '@/components/SiteListItem';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+// --- Datos de Ejemplo ---
+const sitesData = [
+  { id: '1', name: 'Catedral Basílica Metropolitana', distance: '2.5 km', category: 'Religioso', rating: 4.8, location: 'Centro Histórico, Medellín', coords: { latitude: 6.2518, longitude: -75.5636 } },
+  { id: '2', name: 'Parque Nacional Natural', distance: '45 km', category: 'Naturaleza', rating: 4.9, location: 'Antioquia', coords: { latitude: 6.5400, longitude: -76.0500 } },
+  { id: '3', name: 'Museo de Arte Moderno', distance: '8.2 km', category: 'Cultural', rating: 4.7, location: 'Ciudad del Río, Medellín', coords: { latitude: 6.2267, longitude: -75.5748 } },
+  { id: '4', name: 'Fortaleza San Felipe', distance: '1.8 km', category: 'Histórico', rating: 4.6, location: 'Cerro Nutibara, Medellín', coords: { latitude: 6.2368, longitude: -75.5802 } },
+  { id: '5', name: 'Parque de Aventuras', distance: '32 km', category: 'Aventura', rating: 4.5, location: 'Santa Elena, Antioquia', coords: { latitude: 6.2392, longitude: -75.5015 } },
+  { id: '6', name: 'Teatro Nacional', distance: '5.1 km', category: 'Cultural', rating: 4.8, location: 'La Candelaria, Medellín', coords: { latitude: 6.2483, longitude: -75.5684 } },
+];
 
-export default function TabTwoScreen() {
+const MapScreen = () => {
+  const [selectedSite, setSelectedSite] = useState(sitesData[0]);
+
+  const initialRegion = {
+    latitude: 6.2442,
+    longitude: -75.5812,
+    latitudeDelta: 0.1,
+    longitudeDelta: 0.1,
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <ScrollView className="flex-1 bg-gray-50">
+      <Text className="text-2xl font-bold text-zinc-800 pt-12 pb-4 px-4">Mapa de Sitios</Text>
+      
+      {/* Mapa Interactivo */}
+      <View className="h-64 mx-4 rounded-2xl overflow-hidden">
+        <MapView style={{ flex: 1 }} initialRegion={initialRegion}>
+          {sitesData.map(site => (
+            <Marker key={site.id} coordinate={site.coords} pinColor={selectedSite?.id === site.id ? '#40E0D0' : 'red'} />
+          ))}
+        </MapView>
+        <View className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center pointer-events-none">
+            <Text className="text-white font-bold text-lg bg-black/40 p-2 rounded-lg">Mapa Interactivo</Text>
+            <Text className="text-white text-xs bg-black/40 p-1 rounded-lg">Integración con Google Maps</Text>
+        </View>
+      </View>
+      
+      {/* Tarjeta del Sitio Destacado */}
+      <FeaturedSiteCard site={selectedSite} />
+      
+      {/* Lista de Todos los Sitios */}
+      <View className="px-4">
+        <Text className="text-xl font-bold text-zinc-800 mb-4">Todos los Sitios</Text>
+        {sitesData.map(site => (
+          <SiteListItem 
+            key={site.id}
+            site={site}
+            isSelected={selectedSite?.id === site.id}
+            onPress={() => setSelectedSite(site)}
+          />
+        ))}
+      </View>
+    </ScrollView>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-});
+export default MapScreen;

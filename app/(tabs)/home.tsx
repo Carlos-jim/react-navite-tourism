@@ -11,8 +11,8 @@ export default function HomeScreen() {
   };
 
   return (
-    <AnimView animation="fadeIn" duration={400} delay={50} className="gap-2 p-7 mt-5">
-      <AnimView animation="fadeInDown" duration={600} className="gap-4">
+    <AnimView animation="fadeIn" duration={800} delay={50} className="gap-2 p-7 mt-5">
+      <AnimView animation="fadeInDown" duration={1200} className="gap-4">
         <Text className="text-[26px] font-bold mb-2 mt-4">Descubre nuevos lugares</Text>
         <TextInput
           placeholder="Buscar sitios turísticos"
@@ -31,7 +31,7 @@ export default function HomeScreen() {
         />
       </AnimView>
 
-      <AnimView animation="slideInUp" duration={800} delay={200} className="mt-4">
+      <AnimView animation="slideInUp" duration={1000} delay={200} className="mt-4">
         <TouristCard
           title="Parque Arví"
           category="Natural"
